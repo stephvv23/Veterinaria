@@ -30,7 +30,6 @@ public class ControllerPet implements ActionListener, MouseListener {
 
     public ControllerPet(PetArray petArray) {
         GUIPet guiPet = new GUIPet();
-        guiReport = new GUIReport();
 
         this.petArray = petArray;
 
@@ -43,7 +42,6 @@ public class ControllerPet implements ActionListener, MouseListener {
         this.dataPanelPet.listenCbID(this);
         this.dataPanelPet.setLbID(petArray.getLabel());
         this.dataPanelPet.setCbID(petArray.getIDCombo());
-        
 
         guiPet.setVisible(true);
 
@@ -91,7 +89,7 @@ public class ControllerPet implements ActionListener, MouseListener {
                 this.dataPanelPet.clean();
                 break;
             case "Report":
-
+                this.guiReport = new GUIReport();
                 guiReport.setTblPets(petArray.getMatrixPets(), Pet.TB_LABELS);
                 guiReport.listenMouse(this);
                 guiReport.setVisible(true);

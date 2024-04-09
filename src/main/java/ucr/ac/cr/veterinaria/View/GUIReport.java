@@ -4,9 +4,11 @@
  */
 package ucr.ac.cr.veterinaria.View;
 
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -14,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUIReport extends javax.swing.JFrame {
 
+    TableRowSorter<TableModel> sorter;
     /**
      * Creates new form GUIReport
      */
@@ -21,19 +24,17 @@ public class GUIReport extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void listenbtnClose(ActionListener controller) {
-
-        this.btnClose.addActionListener(controller);
-
-    }
-
     public void listenMouse(MouseListener controller) {
         this.tblPets.addMouseListener(controller);
     }
 
-    public void setTblPets(String[][] listPets, String[] TB_LABELS) {
-        this.tblPets.setModel(new DefaultTableModel(listPets, TB_LABELS));
-        this.jScrollPane1.setViewportView(this.tblPets);
+    public void setTblPets(String[][] matrixPets, String[] TB_LABELS) {
+        DefaultTableModel model = new DefaultTableModel(matrixPets, TB_LABELS);
+        this.tblPets.setModel(model);
+        this.tblPets.setAutoCreateRowSorter(true);
+        this.sorter = new TableRowSorter<>(model);
+        this.tblPets.setRowSorter(sorter);
+        
     }
 
     public String[] getDataRaw() {
@@ -76,6 +77,12 @@ public class GUIReport extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblPets);
 
         jLabel1.setText("Filters");
+
+        txtSorter.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSorterKeyReleased(evt);
+            }
+        });
 
         btnClose.setText("close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +129,10 @@ public class GUIReport extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void txtSorterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSorterKeyReleased
+        this.sorter.setRowFilter(RowFilter.regexFilter("(?i)"+this.txtSorter.getText()));// TODO add your handling code here:
+    }//GEN-LAST:event_txtSorterKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
